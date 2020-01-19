@@ -1,0 +1,7 @@
+Requests>=2.19.0
+pyOutlook==4.2.2
+simpletransformers==0.18.3
+pandas==0.25.3
+tqdm==4.41.1
+spacy==2.2.3
+python-dotenv==0.10.4
