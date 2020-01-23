@@ -22,7 +22,7 @@ eval_df = pd.read_csv('data/generated_test.csv', header=0)
 # 'roberta', 'roberta-base'
 model_architecture = "bert-base-german-dbmdz-cased"
 model_type = "bert"
-model = ClassificationModel(model_name=model_architecture, model_type=model_type, num_labels=37,
+model = ClassificationModel(model_name=model_architecture, model_type=model_type, num_labels=30,
                             args={'reprocess_input_data': True, 'overwrite_output_dir': True, 'num_train_epochs': 5,
                                   'fp16': False, 'use_multiprocessing': False})
 
