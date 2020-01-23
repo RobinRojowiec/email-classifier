@@ -11,6 +11,7 @@ Date: 23.01.2020
 import json
 # load the model
 import os
+from email.header import decode_header
 
 import dotenv
 import torch
@@ -37,13 +38,18 @@ with IMAPClient(host="outlook.office365.com", port=993) as client:
 
     for mail_tuple in inbox_messages:
         text = mail_tuple[1].get('Subject')
-
+        if "=" in text:
+            text = decode_header(text)
+            if text[0][1] is not None:
+                text = text[0][0].decode(text[0][1])
+            else:
+                text = text[0][0].decode()
         predictions, raw_outputs = model.predict([text])
         probabilities = softmax(torch.from_numpy(raw_outputs).float(), dim=1)
         label = labels[predictions[0]]
         prob = probabilities[0][predictions[0]].item()
 
         if prob >= 0.2:
-            print(text, prob, label)
+            print(text)
             client.add_flags([mail_tuple[0]], "CLASSIFIED")
-            print(client.move([mail_tuple[0]], label))
+            client.move([mail_tuple[0]], label)
